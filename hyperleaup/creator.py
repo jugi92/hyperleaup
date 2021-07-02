@@ -156,10 +156,11 @@ def write_csv_to_dbfs(df: DataFrame, name: str) -> str:
     tmp_dir = f"/tmp/hyperleaup/{name}/"
 
     # write the DataFrame to DBFS as a single CSV file
-    cleaned_df = clean_dataframe(df)
-    cleaned_df.coalesce(1).write \
+    # cleaned_df = clean_dataframe(df)
+    df.coalesce(1).write \
         .option("delimiter", ",") \
         .option("header", "true") \
+        .option("nullValue", "null") \
         .mode("overwrite").csv(tmp_dir)
 
     # Spark DataFrameWriter will write metadata alongside the CSV,
